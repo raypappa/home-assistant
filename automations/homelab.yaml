@@ -1,0 +1,35 @@
+- id: '1734221551039'
+  alias: Power Outage Shutdown services
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.myups_battery_charge
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    below: 20
+  conditions:
+  - condition: state
+    entity_id: sensor.myups_status
+    state: On Battery Battery Discharging
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  actions:
+  - action: button.press
+    metadata: {}
+    data: {}
+    target:
+      entity_id: button.poweredge_r540_power_off_poweredge_r540
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - type: shutdown_return
+    device_id: 330d62354c250d1600ba0765efe10d0c
+    domain: nut
+  mode: single

@@ -1,0 +1,22 @@
+- id: '1735061482261'
+  alias: Calendar Event reminder
+  description: ''
+  triggers:
+  - trigger: calendar
+    entity_id: calendar.kg5ohk_gmail_com
+    event: start
+    offset: -0:15:0
+  conditions: []
+  actions:
+  - action: siren.turn_on
+    metadata: {}
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - action: siren.turn_off
+    metadata: {}
+    data: {}
+  mode: single
