@@ -1,0 +1,4 @@
+- platform: ddwrt
+  host: 172.17.42.1
+  username: admin
+  password: !secret ddwrt_password
