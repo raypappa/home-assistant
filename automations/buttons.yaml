@@ -1,0 +1,19 @@
+- id: '1738044081884'
+  alias: Button Ambiance
+  description: ''
+  triggers:
+  - device_id: 7361c462858d897c2c65cc574e057b81
+    domain: hue
+    type: initial_press
+    subtype: 4
+    unique_id: 26c06448-35e3-4a33-9dbd-f29011f3da42
+    metadata: {}
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.office_ambiancee
+  mode: single
