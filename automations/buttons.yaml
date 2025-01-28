@@ -35,3 +35,39 @@
       device_id: 17ede8441b0d96619f9255122894377f
       entity_id: e273724e036742495ef4a2ebe8655158
       domain: light
+- id: '18fff798-dd42-11ef-8bc4-00155d918f67'
+  alias: 'Activate Office Concentrate'
+  description: ""
+  mode: single
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: initial_press
+      subtype: 2
+      unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
+      trigger: device
+  conditions: []
+  actions:
+    - action: scene.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: scene.office_concentrate
+- id: '7b30dd06-dd42-11ef-afa0-00155d918f67'
+  alias: 'Toggle Office Light'
+  description: ""
+  mode: single
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: repeat
+      subtype: 2
+      unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
+      trigger: device
+  conditions: []
+  actions:
+    - action: light.toggle
+      metadata: {}
+      data: {}
+      target:
+        entity_id: light.office_2
