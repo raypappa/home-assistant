@@ -178,3 +178,16 @@
       entity_id: e273724e036742495ef4a2ebe8655158
       domain: light
   mode: single
+- id: '1762138711858'
+  alias: git pull on commit
+  description: ''
+  triggers:
+    - trigger: state
+      entity_id:
+        - sensor.raypappa_home_assistant_latest_commit
+  conditions: []
+  actions:
+    - action: shell_command.git_pull
+      metadata: {}
+      data: {}
+  mode: single
