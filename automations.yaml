@@ -1,0 +1,164 @@
+- id: '1738044081884'
+  alias: Button Ambiance
+  description: ''
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: initial_press
+      subtype: 4
+      unique_id: 26c06448-35e3-4a33-9dbd-f29011f3da42
+      metadata: {}
+      trigger: device
+  conditions: []
+  actions:
+    - action: scene.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: scene.office_ambiancee
+  mode: single
+- id: 'c17468b6-dd40-11ef-8c63-00155d918f67'
+  description: ""
+  mode: single
+  alias: Bedside Light Toggle
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: initial_press
+      subtype: 1
+      unique_id: c5bc7b4c-a04e-4248-8ec7-de20c3ca926b
+      trigger: device
+  conditions: []
+  actions:
+    - type: toggle
+      device_id: 17ede8441b0d96619f9255122894377f
+      entity_id: e273724e036742495ef4a2ebe8655158
+      domain: light
+- id: '18fff798-dd42-11ef-8bc4-00155d918f67'
+  alias: 'Activate Office Concentrate'
+  description: ""
+  mode: single
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: initial_press
+      subtype: 2
+      unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
+      trigger: device
+  conditions: []
+  actions:
+    - action: scene.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: scene.office_concentrate
+- id: '7b30dd06-dd42-11ef-afa0-00155d918f67'
+  alias: 'Toggle Office Light'
+  description: ""
+  mode: single
+  triggers:
+    - device_id: 7361c462858d897c2c65cc574e057b81
+      domain: hue
+      type: repeat
+      subtype: 2
+      unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
+      trigger: device
+  conditions: []
+  actions:
+    - action: light.toggle
+      metadata: {}
+      data: {}
+      target:
+        entity_id: light.office_2
+- id: '1737878025977'
+  alias: Calendar notify - pixel8
+  description: ''
+  triggers:
+    - trigger: calendar
+      entity_id: calendar.kg5ohk_gmail_com
+      event: start
+      offset: -0:20:0
+  conditions: []
+  actions:
+    - action: notify.mobile_app_pixel_8a
+      metadata: {}
+      data:
+        message: command_activity
+        data:
+          intent_action: android.intent.action.SET_ALARM
+          intent_extras: android.intent.extra.alarm.HOUR:{{ (now() + timedelta(seconds=120)).strftime('%H') }},android.intent.extra.alarm.MINUTES:{{ (now() + timedelta(seconds=120)).strftime('%M') }},android.intent.extra.alarm.SKIP_UI:true
+  mode: single
+- id: '1733110189059'
+  alias: Good morning Christmas
+  description: ''
+  triggers:
+    - trigger: time
+      at: 06:00:00
+  conditions: []
+  actions:
+    - type: turn_on
+      device_id: c6fc038bb23b0af84d3fc4e49f377d20
+      entity_id: 3140e549d1e6b2a1fa361d9eab95f4d1
+      domain: light
+  mode: single
+- id: '1733110239558'
+  alias: Good night Christmas tree
+  description: ''
+  triggers:
+    - trigger: time
+      at: '22:00:00'
+  conditions: []
+  actions:
+    - type: turn_off
+      device_id: c6fc038bb23b0af84d3fc4e49f377d20
+      entity_id: 3140e549d1e6b2a1fa361d9eab95f4d1
+      domain: light
+  mode: single
+- id: '1734221551039'
+  alias: Power Outage Shutdown services
+  description: ''
+  triggers:
+    - trigger: numeric_state
+      entity_id:
+        - sensor.myups_battery_charge
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+      below: 20
+  conditions:
+    - condition: state
+      entity_id: sensor.myups_status
+      state: On Battery Battery Discharging
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  actions:
+    - action: button.press
+      metadata: {}
+      data: {}
+      target:
+        entity_id: button.poweredge_r540_power_off_poweredge_r540
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - type: shutdown_return
+      device_id: 330d62354c250d1600ba0765efe10d0c
+      domain: nut
+  mode: single
+- id: '1733544795405'
+  alias: Good evening murder
+  description: ''
+  triggers:
+    - trigger: time
+      at: '20:15:00'
+  conditions: []
+  actions:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.bedroom_murder
+  mode: single

@@ -1,0 +1,10 @@
+- platform: climate_group
+  name: 'Home Climate'
+  temperature_unit: F
+  decimal_accuracy_to_half: True # optional: True / False [default: False]
+  unique_id: "233b1180-e061-11ef-bdfa-00155d918f67"
+  entities:
+    - climate.mysa_8b15a4_thermostat
+    - climate.mysa_e1be88_thermostat
+    - climate.mysa_d21684_thermostat
+    - climate.mysa_8b1554_thermostat

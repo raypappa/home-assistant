@@ -1,18 +1,17 @@
-
 # Loads default set of integrations. Do not remove.
 default_config:
-
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
-
-automation: !include_dir_merge_list automations
+automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 switch: !include switch.yaml
 shell_command: !include shell_command.yaml
 device_tracker: !include device_tracker.yaml
+climate: !include climate.yaml
 http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.30.33.0/24
+
