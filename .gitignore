@@ -8,3 +8,16 @@ ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 tags*
+
+.HA_VERSION
+.ha_run.lock
+.shopping_list.json
+*.log
+*.log.1
+*.log.fault
+*.db
+*.db-shm
+*.db-wal
+www/
+tts/
+
