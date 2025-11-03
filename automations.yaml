@@ -162,3 +162,19 @@
       target:
         entity_id: scene.bedroom_murder
   mode: single
+- id: '1761103490410'
+  alias: Toggle bedside light
+  description: ''
+  triggers:
+    - device_id: 82ac3d5614908c19067cae60cf909246
+      domain: zha
+      type: remote_button_short_press
+      subtype: button
+      trigger: device
+  conditions: []
+  actions:
+    - type: toggle
+      device_id: 17ede8441b0d96619f9255122894377f
+      entity_id: e273724e036742495ef4a2ebe8655158
+      domain: light
+  mode: single
