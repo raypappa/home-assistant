@@ -263,3 +263,15 @@
     target:
       device_id: 17ede8441b0d96619f9255122894377f
   mode: single
+- id: '1763190360771'
+  alias: update public dns
+  description: ''
+  triggers:
+  - trigger: time
+    at: 05:00:00
+  conditions: []
+  actions:
+  - action: route53.update_records
+    metadata: {}
+    data: {}
+  mode: single
