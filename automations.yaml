@@ -17,8 +17,8 @@
     target:
       entity_id: scene.office_ambiancee
   mode: single
-- id: 'c17468b6-dd40-11ef-8c63-00155d918f67'
-  description: ""
+- id: c17468b6-dd40-11ef-8c63-00155d918f67
+  description: ''
   mode: single
   alias: Bedside Light Toggle
   triggers:
@@ -34,9 +34,9 @@
     device_id: 17ede8441b0d96619f9255122894377f
     entity_id: e273724e036742495ef4a2ebe8655158
     domain: light
-- id: '18fff798-dd42-11ef-8bc4-00155d918f67'
-  alias: 'Activate Office Concentrate'
-  description: ""
+- id: 18fff798-dd42-11ef-8bc4-00155d918f67
+  alias: Activate Office Concentrate
+  description: ''
   mode: single
   triggers:
   - device_id: 7361c462858d897c2c65cc574e057b81
@@ -52,9 +52,9 @@
     data: {}
     target:
       entity_id: scene.office_concentrate
-- id: '7b30dd06-dd42-11ef-afa0-00155d918f67'
-  alias: 'Toggle Office Light'
-  description: ""
+- id: 7b30dd06-dd42-11ef-afa0-00155d918f67
+  alias: Toggle Office Light
+  description: ''
   mode: single
   triggers:
   - device_id: 7361c462858d897c2c65cc574e057b81
@@ -70,50 +70,6 @@
     data: {}
     target:
       entity_id: light.office_2
-- id: '1737878025977'
-  alias: Calendar notify - pixel8
-  description: ''
-  triggers:
-  - trigger: calendar
-    entity_id: calendar.kg5ohk_gmail_com
-    event: start
-    offset: -0:20:0
-  conditions: []
-  actions:
-  - action: notify.mobile_app_pixel_8a
-    metadata: {}
-    data:
-      message: command_activity
-      data:
-        intent_action: android.intent.action.SET_ALARM
-        intent_extras: android.intent.extra.alarm.HOUR:{{ (now() + timedelta(seconds=120)).strftime('%H') }},android.intent.extra.alarm.MINUTES:{{ (now() + timedelta(seconds=120)).strftime('%M') }},android.intent.extra.alarm.SKIP_UI:true
-  mode: single
-- id: '1733110189059'
-  alias: Good morning Christmas
-  description: ''
-  triggers:
-  - trigger: time
-    at: 06:00:00
-  conditions: []
-  actions:
-  - type: turn_on
-    device_id: c6fc038bb23b0af84d3fc4e49f377d20
-    entity_id: 3140e549d1e6b2a1fa361d9eab95f4d1
-    domain: light
-  mode: single
-- id: '1733110239558'
-  alias: Good night Christmas tree
-  description: ''
-  triggers:
-  - trigger: time
-    at: '22:00:00'
-  conditions: []
-  actions:
-  - type: turn_off
-    device_id: c6fc038bb23b0af84d3fc4e49f377d20
-    entity_id: 3140e549d1e6b2a1fa361d9eab95f4d1
-    domain: light
-  mode: single
 - id: '1734221551039'
   alias: Power Outage Shutdown services
   description: ''
@@ -190,4 +146,120 @@
   - action: shell_command.git_pull
     metadata: {}
     data: {}
+  mode: single
+- id: '1762139700483'
+  alias: toggle bedside light button
+  description: ''
+  triggers:
+  - device_id: 82ac3d5614908c19067cae60cf909246
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+  conditions: []
+  actions:
+  - type: toggle
+    device_id: 17ede8441b0d96619f9255122894377f
+    entity_id: e273724e036742495ef4a2ebe8655158
+    domain: light
+  mode: single
+- id: '1762140408973'
+  alias: shower temp delay
+  description: ''
+  triggers:
+  - device_id: 7230294486277129ba36ae06eee4748a
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+  conditions: []
+  actions:
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      temperature: 80
+    target:
+      area_id: bathroom
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      temperature: 60
+    target:
+      area_id: bathroom
+  mode: single
+- id: '1762141277519'
+  alias: Good Morning wakeup weekday
+  description: ''
+  triggers:
+  - trigger: time
+    at: 06:15:00
+  conditions:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.new_scene
+  - action: scene.turn_on
+    metadata: {}
+    data:
+      transition: 900
+    target:
+      entity_id: scene.bedside_light_good_morning_post
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 17ede8441b0d96619f9255122894377f
+  mode: single
+- id: '1762649853399'
+  alias: Good morning weekenend
+  description: ''
+  triggers:
+  - trigger: time
+    at: 09:00:00
+  conditions:
+  - condition: time
+    weekday:
+    - sun
+    - sat
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.new_scene
+  - action: scene.turn_on
+    metadata: {}
+    data:
+      transition: 900
+    target:
+      entity_id: scene.bedside_light_good_morning_post
+  - delay:
+      hours: 1
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 17ede8441b0d96619f9255122894377f
   mode: single
