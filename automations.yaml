@@ -275,3 +275,19 @@
     metadata: {}
     data: {}
   mode: single
+- id: '1763441873440'
+  alias: Toggle bedside light
+  description: ''
+  triggers:
+  - device_id: f52a8b458b663be3829316c8e1a3ecae
+    domain: zha
+    type: remote_button_short_press
+    subtype: button_1
+    trigger: device
+  conditions: []
+  actions:
+  - type: toggle
+    device_id: 17ede8441b0d96619f9255122894377f
+    entity_id: e273724e036742495ef4a2ebe8655158
+    domain: light
+  mode: single
