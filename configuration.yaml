@@ -14,10 +14,5 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
   - 10.49.48.0/23
-route53:
-  aws_access_key_id: AKIAUKXMBXZJG7ZF6YDV
-  aws_secret_access_key: !secret route53_secret_access_key
-  zone: Z07993151Z48PIABM0XKH
-  domain: stoneydavis.com
-  records:
-  - puma
+route53: !include route53.yaml
+zha: !include zha.yaml

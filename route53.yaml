@@ -1,0 +1,6 @@
+aws_access_key_id: AKIAUKXMBXZJG7ZF6YDV
+aws_secret_access_key: !secret route53_secret_access_key
+zone: Z07993151Z48PIABM0XKH
+domain: stoneydavis.com
+records:
+- puma
