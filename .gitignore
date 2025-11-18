@@ -21,3 +21,5 @@ tags*
 www/
 tts/
 
+__pycache__
+*.log.old
