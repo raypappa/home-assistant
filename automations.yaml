@@ -9,18 +9,19 @@
     unique_id: 26c06448-35e3-4a33-9dbd-f29011f3da42
     metadata: {}
     trigger: device
+  - trigger: time
+    at: '19:30:00'
   conditions: []
   actions:
   - action: scene.turn_on
     metadata: {}
     data: {}
     target:
-      entity_id: scene.office_ambiancee
+      entity_id: scene.office_ambiance
   mode: single
 - id: c17468b6-dd40-11ef-8c63-00155d918f67
-  description: ''
-  mode: single
   alias: Bedside Light Toggle
+  description: ''
   triggers:
   - device_id: 7361c462858d897c2c65cc574e057b81
     domain: hue
@@ -28,16 +29,26 @@
     subtype: 1
     unique_id: c5bc7b4c-a04e-4248-8ec7-de20c3ca926b
     trigger: device
+  - device_id: 82ac3d5614908c19067cae60cf909246
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+  - device_id: 82ac3d5614908c19067cae60cf909246
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
   conditions: []
   actions:
   - type: toggle
     device_id: 17ede8441b0d96619f9255122894377f
     entity_id: e273724e036742495ef4a2ebe8655158
     domain: light
+  mode: single
 - id: 18fff798-dd42-11ef-8bc4-00155d918f67
   alias: Activate Office Concentrate
   description: ''
-  mode: single
   triggers:
   - device_id: 7361c462858d897c2c65cc574e057b81
     domain: hue
@@ -45,21 +56,35 @@
     subtype: 2
     unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
     trigger: device
+  - trigger: time
+    at: 07:15:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
   conditions: []
   actions:
   - action: scene.turn_on
     metadata: {}
     data: {}
     target:
-      entity_id: scene.office_concentrate
+      entity_id: scene.office_concetrate
+  mode: single
 - id: 7b30dd06-dd42-11ef-afa0-00155d918f67
   alias: Toggle Office Light
   description: ''
-  mode: single
   triggers:
   - device_id: 7361c462858d897c2c65cc574e057b81
     domain: hue
     type: repeat
+    subtype: 2
+    unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
+    trigger: device
+  - device_id: 7361c462858d897c2c65cc574e057b81
+    domain: hue
+    type: long_press
     subtype: 2
     unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
     trigger: device
@@ -70,6 +95,7 @@
     data: {}
     target:
       entity_id: light.office_2
+  mode: single
 - id: '1734221551039'
   alias: Power Outage Shutdown services
   description: ''
@@ -115,24 +141,9 @@
   actions:
   - action: scene.turn_on
     metadata: {}
+    data: {}
     target:
-      entity_id: scene.bedroom_murder
-  mode: single
-- id: '1761103490410'
-  alias: Toggle bedside light
-  description: ''
-  triggers:
-  - device_id: 82ac3d5614908c19067cae60cf909246
-    domain: zha
-    type: remote_button_short_press
-    subtype: button
-    trigger: device
-  conditions: []
-  actions:
-  - type: toggle
-    device_id: 17ede8441b0d96619f9255122894377f
-    entity_id: e273724e036742495ef4a2ebe8655158
-    domain: light
+      entity_id: scene.bedroom_murder_2
   mode: single
 - id: '1762138711858'
   alias: git pull on commit
@@ -146,22 +157,6 @@
   - action: shell_command.git_pull
     metadata: {}
     data: {}
-  mode: single
-- id: '1762139700483'
-  alias: toggle bedside light button
-  description: ''
-  triggers:
-  - device_id: 82ac3d5614908c19067cae60cf909246
-    domain: zha
-    type: remote_button_short_press
-    subtype: button
-    trigger: device
-  conditions: []
-  actions:
-  - type: toggle
-    device_id: 17ede8441b0d96619f9255122894377f
-    entity_id: e273724e036742495ef4a2ebe8655158
-    domain: light
   mode: single
 - id: '1762140408973'
   alias: shower temp delay
@@ -180,9 +175,19 @@
       temperature: 80
     target:
       area_id: bathroom
+  - wait_for_trigger:
+    - trigger: numeric_state
+      entity_id:
+      - climate.mysa_8b15a4_thermostat_2
+      attribute: current_temperature
+      above: 80
+  - action: notify.mobile_app_pixel_8a
+    metadata: {}
+    data:
+      message: bathroom is pre-heated
   - delay:
-      hours: 1
-      minutes: 0
+      hours: 0
+      minutes: 30
       seconds: 0
       milliseconds: 0
   - action: climate.set_temperature
@@ -275,19 +280,74 @@
     metadata: {}
     data: {}
   mode: single
-- id: '1763441873440'
-  alias: Toggle bedside light
+- id: '1763740336249'
+  alias: Office UPS Recharged
   description: ''
   triggers:
-  - device_id: f52a8b458b663be3829316c8e1a3ecae
-    domain: zha
-    type: remote_button_short_press
-    subtype: button_1
+  - type: battery_level
+    device_id: c99bcc705ebde7f0a9ab68c34d96d758
+    entity_id: 9de53ec694492b39e4fd0a65ab5630fc
+    domain: sensor
     trigger: device
+    above: 99
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
   conditions: []
   actions:
-  - type: toggle
-    device_id: 17ede8441b0d96619f9255122894377f
-    entity_id: e273724e036742495ef4a2ebe8655158
-    domain: light
+  - type: load_on
+    device_id: c99bcc705ebde7f0a9ab68c34d96d758
+    domain: nut
+  mode: single
+- id: '1763952930811'
+  alias: 'Bathroom is preheated notification '
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - climate.mysa_8b15a4_thermostat_2
+    attribute: current_temperature
+    above: 80
+  conditions:
+  - condition: numeric_state
+    entity_id: automation.bathroom_is_preheated_notification
+    attribute: last_triggered
+    below: 600
+  actions:
+  - action: assist_satellite.announce
+    target:
+      device_id: d286fb633d91fdc0b795cf67b56aa679
+    data:
+      message: Bathroom is pre-heated
+      preannounce: true
+  - action: notify.notify
+    metadata: {}
+    data:
+      message: 'Bathroom is pre-heated '
+  - action: notify.mobile_app_pixel_8a
+    metadata: {}
+    data:
+      message: 'Bathroom is pre-heated '
+    enabled: false
+  mode: single
+- id: '1763956557659'
+  alias: Office get off work
+  description: ''
+  triggers:
+  - trigger: time
+    at: '17:00:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.office_relax_3
   mode: single
