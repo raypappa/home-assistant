@@ -1,25 +1,26 @@
-# Ignore folders.
-.storage
-.cloud
-.google.token
-
-# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
-ip_bans.yaml
-secrets.yaml
-known_devices.yaml
-tags*
-
-.HA_VERSION
-.ha_run.lock
-.shopping_list.json
-*.log
-*.log.1
-*.log.fault
 *.db
 *.db-shm
 *.db-wal
-www/
+*.log
+*.log*
+.
+.HA_VERSION
+.cloud
+.google.token
+.ha_run.lock
+.pytest_cache/
+.shopping_list.json
+.storage
+__pycache__/
+devtools_json_cache.json
+home-assistant.log
+*.log
+ip_bans.yaml
+known_devices.yaml
+secrets.yaml
+secrets.yaml
+tags*
 tts/
-
-__pycache__
-*.log.old
+www/
+zigbee.db # If using ZHA
+zwcfg_*.xml # If using Z-Wave (old style)
