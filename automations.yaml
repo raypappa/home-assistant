@@ -70,7 +70,7 @@
     metadata: {}
     data: {}
     target:
-      entity_id: scene.office_concetrate
+      entity_id: scene.office_natural_light_2
   mode: single
 - id: 7b30dd06-dd42-11ef-afa0-00155d918f67
   alias: Toggle Office Light
@@ -95,41 +95,6 @@
     data: {}
     target:
       entity_id: light.office_2
-  mode: single
-- id: '1734221551039'
-  alias: Power Outage Shutdown services
-  description: ''
-  triggers:
-  - trigger: numeric_state
-    entity_id:
-    - sensor.myups_battery_charge
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    below: 20
-  conditions:
-  - condition: state
-    entity_id: sensor.myups_status
-    state: On Battery Battery Discharging
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-  actions:
-  - action: button.press
-    metadata: {}
-    data: {}
-    target:
-      entity_id: button.poweredge_r540_power_off_poweredge_r540
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 0
-      milliseconds: 0
-  - type: shutdown_return
-    device_id: 330d62354c250d1600ba0765efe10d0c
-    domain: nut
   mode: single
 - id: '1733544795405'
   alias: Good evening murder
@@ -169,33 +134,9 @@
     trigger: device
   conditions: []
   actions:
-  - action: climate.set_temperature
+  - action: script.pre_heat_bathroom_2
     metadata: {}
-    data:
-      temperature: 80
-    target:
-      area_id: bathroom
-  - wait_for_trigger:
-    - trigger: numeric_state
-      entity_id:
-      - climate.mysa_8b15a4_thermostat_2
-      attribute: current_temperature
-      above: 80
-  - action: notify.mobile_app_pixel_8a
-    metadata: {}
-    data:
-      message: bathroom is pre-heated
-  - delay:
-      hours: 0
-      minutes: 30
-      seconds: 0
-      milliseconds: 0
-  - action: climate.set_temperature
-    metadata: {}
-    data:
-      temperature: 60
-    target:
-      area_id: bathroom
+    data: {}
   mode: single
 - id: '1762141277519'
   alias: Good Morning wakeup weekday
@@ -280,57 +221,6 @@
     metadata: {}
     data: {}
   mode: single
-- id: '1763740336249'
-  alias: Office UPS Recharged
-  description: ''
-  triggers:
-  - type: battery_level
-    device_id: c99bcc705ebde7f0a9ab68c34d96d758
-    entity_id: 9de53ec694492b39e4fd0a65ab5630fc
-    domain: sensor
-    trigger: device
-    above: 99
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
-  conditions: []
-  actions:
-  - type: load_on
-    device_id: c99bcc705ebde7f0a9ab68c34d96d758
-    domain: nut
-  mode: single
-- id: '1763952930811'
-  alias: 'Bathroom is preheated notification '
-  description: ''
-  triggers:
-  - trigger: numeric_state
-    entity_id:
-    - climate.mysa_8b15a4_thermostat_2
-    attribute: current_temperature
-    above: 80
-  conditions:
-  - condition: numeric_state
-    entity_id: automation.bathroom_is_preheated_notification
-    attribute: last_triggered
-    below: 600
-  actions:
-  - action: assist_satellite.announce
-    target:
-      device_id: d286fb633d91fdc0b795cf67b56aa679
-    data:
-      message: Bathroom is pre-heated
-      preannounce: true
-  - action: notify.notify
-    metadata: {}
-    data:
-      message: 'Bathroom is pre-heated '
-  - action: notify.mobile_app_pixel_8a
-    metadata: {}
-    data:
-      message: 'Bathroom is pre-heated '
-    enabled: false
-  mode: single
 - id: '1763956557659'
   alias: Office get off work
   description: ''
@@ -350,4 +240,55 @@
     data: {}
     target:
       entity_id: scene.office_relax_3
+  mode: single
+- id: '1764409455897'
+  alias: Toggle bedroom fan light
+  description: ''
+  triggers:
+  - device_id: f52a8b458b663be3829316c8e1a3ecae
+    domain: zha
+    type: remote_button_double_press
+    subtype: button_1
+    trigger: device
+  - device_id: 82ac3d5614908c19067cae60cf909246
+    domain: zha
+    type: remote_button_double_press
+    subtype: button
+    trigger: device
+  conditions: []
+  actions:
+  - type: toggle
+    device_id: f18892c9ee2f699cd8dbd0db78535e67
+    entity_id: c017269a327e304ac102af10e5feecfa
+    domain: light
+  mode: single
+- id: '1766370415952'
+  alias: Periodic AlwaysOn check
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: '*'
+    minutes: '15'
+    seconds: '0'
+  conditions: []
+  actions:
+  - action: script.turn_on_alwayson_devices
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1766653260333'
+  alias: Enable good morning weekday
+  description: ''
+  triggers:
+  - trigger: time
+    at: '10:00:00'
+  conditions: []
+  actions:
+  - action: automation.turn_on
+    metadata: {}
+    target:
+      entity_id:
+      - automation.good_morning_wakeup_weekday
+      - automation.good_evening_murder
+    data: {}
   mode: single

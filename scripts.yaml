@@ -1,10 +1,46 @@
-living_room_light_button:
-  alias: Living Room Light Button
+turn_on_alwayson_devices:
   sequence:
-  - action: remote.send_command
+  - action: switch.turn_on
+    metadata: {}
+    target:
+      label_id: alwayson
+    data: {}
+  alias: Turn on AlwaysOn devices
+  description: ''
+pre_heat_bathroom_2:
+  sequence:
+  - action: climate.set_temperature
     metadata: {}
     data:
-      command: ssDiAVCfBgAEAASEDgwOCw4NDQwNDQ0MDQ0NDA4MDQwODQymGwwaDA0aGQ0NGQ4YGw0MGhkNGgwaDhkNGQ0NGRoMGg4LGwwaGgwNGhkNDBsMGg0ZDRoZDQ0ZGg0ZDgwaDBoNGQ0ZDRsZDRkNGgwaDQwbGA4NGQ0ZDRoZDRkODBoNGgwaDRkNGQ0aDRoMGhkNGgwNGgwbGQ0ZDRoMGg0ZDhgPGQwaDQwAAzUODA0NDQwNDQwNDQ0NDA4MDQ0NDQwNDaYaDRkNDRkaDA4aDBoZDQ0ZGgwaDhkNGQ0aDA0aGQ4YDgwaDRoZDQwaGQ4MGgwbDBoNGRoMDhkaDRkNDRkNGQ0bCxsNGRoMGg0ZDRkODRkaDA0aDBoNGRoNGgwNGgwaDRkNGQ0bDBoNGQ0ZGg0ZDgsbDRkaDBoNGQ0ZDhoMGg0ZDRkNDQADNQ0NDA0NDQwNDgwNDA4MDQ0NDQwNDQwNpxkNGgwNGhoNDRkNGRoMDRoaDBoNGgwaDRkNDRoYDhkNDRoMGhkNDRoaDQwaDRkNGQ0ZGg4MGhkNGgwNGgwaDRoNGQ0ZGg0ZDRkOGQ0NGhkNDRkNGQ0aGg0ZDQ0ZDRkNGgwbDRkNGQ0aDBoZDhkNDRkNGhkNGQ0aDRkNGg0ZDRkNGg0MAAXc
+      temperature: 80
     target:
-      entity_id: remote.ir_remote
+      area_id: bathroom
+  - repeat:
+      until:
+      - condition: numeric_state
+        entity_id: climate.mysa_8b15a4_thermostat_2
+        attribute: current_temperature
+        above: 78
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
+  - action: notify.mobile_app_pixel_8a
+    metadata: {}
+    data:
+      message: bathroom is pre-heated
+  - delay:
+      hours: 0
+      minutes: 30
+      seconds: 0
+      milliseconds: 0
+  - action: climate.set_temperature
+    metadata: {}
+    data:
+      temperature: 60
+    target:
+      area_id: bathroom
+  alias: pre-heat-bathroom
   description: ''
