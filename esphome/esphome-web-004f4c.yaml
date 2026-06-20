@@ -1,0 +1,62 @@
+esphome:
+  name: esphome-web-004f4c
+  friendly_name: temp-sensor-002
+  min_version: 2026.4.4
+  name_add_mac_suffix: false
+
+esp32:
+  variant: esp32s3
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "ebcOjZxVacub89+nNob0Tp9+66KkBALOcfZXVGdWNh4="
+# Allow Over-The-Air updates
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+#new...
+i2c:
+  sda: 2
+  scl: 1
+  scan: true
+sensor:
+  - platform: sht3xd
+    temperature:
+      name: "SHT30"
+      id: temperature
+    humidity:
+      name: "Humidity"
+      id: humidity
+    address: 0x44
+    update_interval: 10s
+  - platform: qmp6988
+    temperature:
+      name: "QMP6988"
+      oversampling: 16x
+    pressure:
+      name: "Pressure"
+      oversampling: 16x
+    address: 0x70
+    update_interval: 10s
+    iir_filter: 2x
+  - platform: template
+    name: "VPD"
+    icon: "mdi:gauge"
+    id: gr2_ace_vpd
+    lambda: |-
+      return (((100 - id(humidity).state) / 100.0) * (0.6108 * exp((17.27 * id(temperature).state) / (id(temperature).state + 237.3))));
+    update_interval: 10s
+    unit_of_measurement: kPa
+    accuracy_decimals: 2
+    filters:
+      - filter_out: nan
