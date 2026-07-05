@@ -2,13 +2,6 @@
   alias: Button Ambiance
   description: ''
   triggers:
-  - device_id: 7361c462858d897c2c65cc574e057b81
-    domain: hue
-    type: initial_press
-    subtype: 4
-    unique_id: 26c06448-35e3-4a33-9dbd-f29011f3da42
-    metadata: {}
-    trigger: device
   - trigger: time
     at: '19:30:00'
   conditions: []
@@ -23,39 +16,33 @@
   alias: Bedside Light Toggle
   description: ''
   triggers:
-  - device_id: 7361c462858d897c2c65cc574e057b81
-    domain: hue
-    type: initial_press
-    subtype: 1
-    unique_id: c5bc7b4c-a04e-4248-8ec7-de20c3ca926b
-    trigger: device
   - device_id: 82ac3d5614908c19067cae60cf909246
     domain: zha
     type: remote_button_short_press
     subtype: button
     trigger: device
   - device_id: 82ac3d5614908c19067cae60cf909246
+    domain: zha
+    type: remote_button_short_press
+    subtype: button
+    trigger: device
+  - device_id: 7230294486277129ba36ae06eee4748a
     domain: zha
     type: remote_button_short_press
     subtype: button
     trigger: device
   conditions: []
   actions:
-  - type: toggle
-    device_id: 17ede8441b0d96619f9255122894377f
-    entity_id: e273724e036742495ef4a2ebe8655158
-    domain: light
+  - action: light.toggle
+    metadata: {}
+    target:
+      entity_id: light.signify_netherlands_b_v_lca005
+    data: {}
   mode: single
 - id: 18fff798-dd42-11ef-8bc4-00155d918f67
   alias: Activate Office Concentrate
   description: ''
   triggers:
-  - device_id: 7361c462858d897c2c65cc574e057b81
-    domain: hue
-    type: initial_press
-    subtype: 2
-    unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
-    trigger: device
   - trigger: time
     at: 07:15:00
     weekday:
@@ -71,30 +58,6 @@
     data: {}
     target:
       entity_id: scene.office_natural_light_2
-  mode: single
-- id: 7b30dd06-dd42-11ef-afa0-00155d918f67
-  alias: Toggle Office Light
-  description: ''
-  triggers:
-  - device_id: 7361c462858d897c2c65cc574e057b81
-    domain: hue
-    type: repeat
-    subtype: 2
-    unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
-    trigger: device
-  - device_id: 7361c462858d897c2c65cc574e057b81
-    domain: hue
-    type: long_press
-    subtype: 2
-    unique_id: 82b3a93d-b368-42ef-bc4b-898601770261
-    trigger: device
-  conditions: []
-  actions:
-  - action: light.toggle
-    metadata: {}
-    data: {}
-    target:
-      entity_id: light.office_2
   mode: single
 - id: '1733544795405'
   alias: Good evening murder
@@ -180,7 +143,7 @@
   description: ''
   triggers:
   - trigger: time
-    at: 09:00:00
+    at: 08:30:00
   conditions:
   - condition: time
     weekday:
@@ -256,11 +219,7 @@
     subtype: button
     trigger: device
   conditions: []
-  actions:
-  - type: toggle
-    device_id: f18892c9ee2f699cd8dbd0db78535e67
-    entity_id: c017269a327e304ac102af10e5feecfa
-    domain: light
+  actions: []
   mode: single
 - id: '1766370415952'
   alias: Periodic AlwaysOn check
@@ -291,4 +250,105 @@
       - automation.good_morning_wakeup_weekday
       - automation.good_evening_murder
     data: {}
+  mode: single
+- id: '1771809131503'
+  alias: Stop pre-heating bathroom
+  description: ''
+  triggers:
+  - device_id: 7230294486277129ba36ae06eee4748a
+    domain: zha
+    type: remote_button_double_press
+    subtype: button
+    trigger: device
+  conditions: []
+  actions:
+  - action: script.reset_bathroom_temp
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1776056887414'
+  alias: one time wakeup
+  description: ''
+  triggers:
+  - trigger: time
+    at: 05:05:00
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: scene.new_scene
+  - action: scene.turn_on
+    metadata: {}
+    data:
+      transition: 900
+    target:
+      entity_id: scene.bedside_light_good_morning_post
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: 17ede8441b0d96619f9255122894377f
+  - action: automation.turn_off
+    metadata: {}
+    data:
+      stop_actions: false
+    target:
+      entity_id: automation.one_time_wakeup
+  mode: single
+- id: '1782702078186'
+  alias: Garbage Light Reminder
+  description: ''
+  triggers:
+  - trigger: time
+    at: '18:30:00'
+    weekday:
+    - sun
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: 47b5f45ba4d4bb8c06d091dcdf04c95b
+    entity_id: ff7bdde47fc2a25a31cf03735871e9cf
+    domain: light
+  - delay:
+      hours: 4
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 47b5f45ba4d4bb8c06d091dcdf04c95b
+    entity_id: ff7bdde47fc2a25a31cf03735871e9cf
+    domain: light
+  mode: single
+- id: '1782702657669'
+  alias: Recycling Reminder Light
+  description: ''
+  triggers:
+  - trigger: time
+    at: '18:30:00'
+    weekday:
+    - sun
+  conditions:
+  - condition: template
+    value_template: '{{ now().isocalendar()[1] % 2 == 1 }}  # Odd ISO weeks'
+  actions:
+  - type: turn_on
+    device_id: 47b5f45ba4d4bb8c06d091dcdf04c95b
+    entity_id: 61cb69ef64ca94f84f83ae0656b283ca
+    domain: light
+  - delay:
+      hours: 4
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 47b5f45ba4d4bb8c06d091dcdf04c95b
+    entity_id: 61cb69ef64ca94f84f83ae0656b283ca
+    domain: light
   mode: single

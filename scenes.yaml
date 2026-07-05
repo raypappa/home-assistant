@@ -1,7 +1,7 @@
 - id: '1733544735580'
   name: 'Bedroom murder '
   entities:
-    light.craig_bedside_light:
+    light.signify_netherlands_b_v_lca005:
       min_color_temp_kelvin: 2000
       max_color_temp_kelvin: 6535
       min_mireds: 153
@@ -43,41 +43,6 @@
       friendly_name: Craig bedside light
       supported_features: 44
       state: 'on'
-    light.fan_light:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - None
-      - candle
-      - fire
-      - prism
-      - sparkle
-      - opal
-      - glisten
-      - unknown
-      - unknown
-      - unknown
-      - unknown
-      - sunrise
-      - sunset
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect:
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      mode: normal
-      dynamics: none
-      friendly_name: Fan Light
-      supported_features: 44
-      state: 'off'
   metadata: {}
 - id: '1733816608382'
   name: Bedroom lights off
